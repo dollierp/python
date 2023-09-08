@@ -43,11 +43,11 @@ class TestDynamicClient(unittest.TestCase):
                 api_version='apps.example.com/v1', kind='ClusterChangeMe')
 
         crd_api = client.resources.get(
-            api_version='apiextensions.k8s.io/v1beta1',
+            api_version='apiextensions.k8s.io/v1',
             kind='CustomResourceDefinition')
         name = 'clusterchangemes.apps.example.com'
         crd_manifest = {
-            'apiVersion': 'apiextensions.k8s.io/v1beta1',
+            'apiVersion': 'apiextensions.k8s.io/v1',
             'kind': 'CustomResourceDefinition',
             'metadata': {
                 'name': name,
@@ -61,10 +61,29 @@ class TestDynamicClient(unittest.TestCase):
                     'singular': 'clusterchangeme',
                 },
                 'scope': 'Cluster',
-                'version': 'v1',
-                'subresources': {
-                    'status': {}
-                }
+                'versions': [{
+                    'name': 'v1',
+                    'schema': {
+                        'openAPIV3Schema': {
+                            'type': 'object',
+                            'properties': {
+                                'spec': {
+                                    'type': 'object',
+                                    'properties': {
+                                        'size': {
+                                            'type': 'integer'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'served': True,
+                    'storage': True,
+                    'subresources': {
+                        'status': {}
+                    }
+                }]
             }
         }
         resp = crd_api.create(crd_manifest)
@@ -142,13 +161,13 @@ class TestDynamicClient(unittest.TestCase):
                 api_version='apps.example.com/v1', kind='ChangeMe')
 
         crd_api = client.resources.get(
-            api_version='apiextensions.k8s.io/v1beta1',
+            api_version='apiextensions.k8s.io/v1',
             kind='CustomResourceDefinition')
 
         name = 'changemes.apps.example.com'
 
         crd_manifest = {
-            'apiVersion': 'apiextensions.k8s.io/v1beta1',
+            'apiVersion': 'apiextensions.k8s.io/v1',
             'kind': 'CustomResourceDefinition',
             'metadata': {
                 'name': name,
@@ -162,10 +181,29 @@ class TestDynamicClient(unittest.TestCase):
                     'singular': 'changeme',
                 },
                 'scope': 'Namespaced',
-                'version': 'v1',
-                'subresources': {
-                    'status': {}
-                }
+                'versions': [{
+                    'name': 'v1',
+                    'schema': {
+                        'openAPIV3Schema': {
+                            'type': 'object',
+                            'properties': {
+                                'spec': {
+                                    'type': 'object',
+                                    'properties': {
+                                        'size': {
+                                            'type': 'integer'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'served': True,
+                    'storage': True,
+                    'subresources': {
+                        'status': {}
+                    }
+                }]
             }
         }
         async_resp = crd_api.create(crd_manifest, async_req=True)
@@ -257,11 +295,11 @@ class TestDynamicClient(unittest.TestCase):
                 api_version='apps.example.com/v1', kind='ChangeMe')
 
         crd_api = client.resources.get(
-            api_version='apiextensions.k8s.io/v1beta1',
+            api_version='apiextensions.k8s.io/v1',
             kind='CustomResourceDefinition')
         name = 'changemes.apps.example.com'
         crd_manifest = {
-            'apiVersion': 'apiextensions.k8s.io/v1beta1',
+            'apiVersion': 'apiextensions.k8s.io/v1',
             'kind': 'CustomResourceDefinition',
             'metadata': {
                 'name': name,
@@ -275,10 +313,29 @@ class TestDynamicClient(unittest.TestCase):
                     'singular': 'changeme',
                 },
                 'scope': 'Namespaced',
-                'version': 'v1',
-                'subresources': {
-                    'status': {}
-                }
+                'versions': [{
+                    'name': 'v1',
+                    'schema': {
+                        'openAPIV3Schema': {
+                            'type': 'object',
+                            'properties': {
+                                'spec': {
+                                    'type': 'object',
+                                    'properties': {
+                                        'size': {
+                                            'type': 'integer'
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    'served': True,
+                    'storage': True,
+                    'subresources': {
+                        'status': {}
+                    }
+                }]
             }
         }
         resp = crd_api.create(crd_manifest)
